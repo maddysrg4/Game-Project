@@ -94,6 +94,9 @@ class Pawn: public Heros
                 else if(s[3]=='L'){j++;}
                 else if(s[3]=='R'){j--;}
             }
+         /*   if(g->Board[i][j][0]!='-'){
+
+            }*/
             g->Board[i][j]=g->Board[p.x][p.y];
             g->Board[p.x][p.y]="-";
             p.x=i;
@@ -102,14 +105,31 @@ class Pawn: public Heros
         }
         int ErrorCheck(string s,int player,GameBoard *g)
         {
+            int i=p.x;
+            int j=p.y;
             if(player==1)
             {
                 if(s[3]=='F'){i-1<0;return 1;}
                 else if(s[3]=='B'){i+1>4;return 1;}
                 else if(s[3]=='L'){j-1<0;return 1;}
                 else if(s[3]=='R'){j+1>4;return 1;}
-
+                if(s[3]=='F'){if(g->Board[i-1][j][0]=='A') return 2;}
+                else if(s[3]=='B'){if(g->Board[i+1][j][0]=='A') return 2;}
+                else if(s[3]=='L'){if(g->Board[i][j-1][0]=='A') return 2;}
+                else if(s[3]=='R'){if(g->Board[i][j+1][0]=='A') return 2;}
             }
+            else
+            {
+                if(s[3]=='F'){i+1>4;return 1;}
+                else if(s[3]=='B'){i-1<0;return 1;}
+                else if(s[3]=='L'){j+1>4;return 1;}
+                else if(s[3]=='R'){j-1<0;return 1;}
+                if(s[3]=='F'){if(g->Board[i+1][j][0]=='A') return 2;}
+                else if(s[3]=='B'){if(g->Board[i-1][j][0]=='A') return 2;}
+                else if(s[3]=='L'){if(g->Board[i][j+1][0]=='A') return 2;}
+                else if(s[3]=='R'){if(g->Board[i][j-1][0]=='A') return 2;}
+            }
+            return 0;
         }
 };
 
@@ -154,6 +174,10 @@ int main()
             string s;
             cin>>s;
             int p=s[1]-'0';
+
+            int error=p1[p-1].ErrorCheck(s,1,game);
+            if(error==1){cout<<"Out of Board";continue;}
+            else if(error==2){cout<<"Own Player standing";continue;}
             game=p1[p-1].move(s,1,game);
             game->DisplayBoard();
             turn=2;
@@ -164,6 +188,9 @@ int main()
             string s;
             cin>>s;
             int p=s[1]-'0';
+            int error=p2[p-1].ErrorCheck(s,2,game);
+            if(error==1){cout<<"Out of Board";continue;}
+            else if(error==2){cout<<"Own Player standing";continue;}
             game=p2[p-1].move(s,2,game);
             game->DisplayBoard();
             turn=1;
