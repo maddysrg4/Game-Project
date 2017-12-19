@@ -95,7 +95,8 @@ class Pawn: public Heros
                 else if(s[3]=='R'){j--;}
             }
             if(g->Board[i][j][0]!='-'){
-                    int p=s[1]-'0';
+                    s=g->Board[i][j];
+                    int p=s[3]-'0';
                     if(player==2){
                     p1[p-1].p.x=-1;
                     p1[p-1].p.y=-1;}
@@ -200,7 +201,7 @@ int main()
             string s;
             cin>>s;
             int p=s[1]-'0';
-            if(p1[p-1].p.x==-1){cout<<"Player Already Dead\n";continue;}
+            if(p2[p-1].p.x==-1){cout<<"Player Already Dead\n";continue;}
             int error=p2[p-1].ErrorCheck(s,2,game);
             if(error==1){cout<<"Out of Board\n";continue;}
             else if(error==2){cout<<"Own Player standing\n";continue;}
